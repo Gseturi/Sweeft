@@ -1,30 +1,71 @@
-﻿using SweeftProblems;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 
-// See https://aka.ms/new-console-template for more information
+public class Country
+{
+    public object Name { get; set; } 
+    public string Region { get; set; }
+    public string Subregion { get; set; }
+    public double[] Latlng { get; set; }
+    public double? Area { get; set; }
+    public int? Population { get; set; }
+}
 
-Console.WriteLine("first");
-Console.WriteLine(Problems.sPalindrome("Racecar")); //true
-Console.WriteLine(Problems.sPalindrome("A man, a plan, a canal, Panama")); //true
-Console.WriteLine(Problems.sPalindrome("Hello")); //false
-Console.WriteLine(Problems.sPalindrome("bbaah*aa*Haabb")); //true
-Console.WriteLine("second");
-Console.WriteLine(Problems.MinSplit(87)); 
-Console.WriteLine(Problems.MinSplit(50)); 
-Console.WriteLine(Problems.MinSplit(51)); 
-Console.WriteLine(Problems.MinSplit(17));
-Console.WriteLine("third");
-Console.WriteLine(Problems.NotContains(new int[] { 1, 2, 3, 5 }));   //4
-Console.WriteLine(Problems.NotContains(new int[] { 3, 4, -1, 1 }));  //2
-Console.WriteLine(Problems.NotContains(new int[] { -1, -2, -3 }));   //1
-Console.WriteLine(Problems.NotContains(new int[] { 1, 3, 6, 4, 1, 2 })); //5
-Console.WriteLine("forth");
-Console.WriteLine(Problems.IsProperly("(())")); //true
-Console.WriteLine(Problems.IsProperly("(()())")); //true
-Console.WriteLine(Problems.IsProperly(")(")); //false
-Console.WriteLine(Problems.IsProperly("((())")); //false
-Console.WriteLine("fifth");
-Console.WriteLine(Problems.CountVariants(5));
-Console.WriteLine(Problems.CountVariants(8));
-Console.WriteLine(Problems.CountVariants(1));
-Console.WriteLine(Problems.CountVariants(2));
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        var url = "https://restcountries.com/v3.1/all"; 
 
+        using (var client = new HttpClient())
+        {
+            
+            var response = await client.GetStringAsync(url);
+
+         
+           //Console.WriteLine("Raw response:\n" + response);
+
+            var countries = JsonConvert.DeserializeObject<Country[]>(response);
+
+            foreach (var country in countries)
+            {
+
+                string countryName = GetCountryName(country.Name);
+
+                var fileName = $"{countryName.Replace(" ", "_")}.txt";
+
+                
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+
+                var content = $"Region: {country.Region}\n" +
+                             $"Subregion: {country.Subregion}\n" +
+                             $"Latitude and Longitude: {string.Join(", ", country.Latlng ?? new double[] { })}\n" +
+                             $"Area: {(country.Area.HasValue ? country.Area.Value + " km²" : "N/A")}\n" +
+                             $"Population: {(country.Population.HasValue ? country.Population.Value.ToString() : "N/A")}\n";
+
+              
+                await File.WriteAllTextAsync(filePath, content);
+
+                Console.WriteLine($"Created file: {fileName}");
+            }
+        }
+    }
+ 
+    static string GetCountryName(object name)
+    {
+        if (name is string)
+        {
+            return (string)name;
+        }
+        else if (name is JObject nameDict)
+        { 
+            var commonName = nameDict["common"];
+            return commonName?.ToString() ?? "Unknown";
+        }
+        return "Unknown";
+    }
+}
