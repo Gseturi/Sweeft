@@ -1,0 +1,39 @@
+create database SchoolDb
+
+
+use SchoolDb
+
+Create table Teacher(
+	TeacherID INT PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Gender CHAR(1) CHECK (Gender IN ('M', 'F')),
+    Subject VARCHAR(50) NOT NULL
+
+);
+
+Create table Pupil(
+PupilID INT PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Gender CHAR(1) CHECK (Gender IN ('M', 'F')),
+    Class VARCHAR(10) NOT NULL
+
+);
+
+CREATE TABLE TeacherPupil (
+    TeacherID INT,
+    PupilID INT,
+    PRIMARY KEY (TeacherID, PupilID),
+    FOREIGN KEY (TeacherID) REFERENCES Teacher(TeacherID) ON DELETE CASCADE,
+    FOREIGN KEY (PupilID) REFERENCES Pupil(PupilID) ON DELETE CASCADE
+);
+
+SELECT DISTINCT T.TeacherID, T.FirstName, T.LastName, T.Subject
+FROM Teacher T
+JOIN TeacherPupil TP ON T.TeacherID = TP.TeacherID
+WHERE TP.PupilID IN (
+    SELECT PupilID
+    FROM Pupil
+    WHERE FirstName = 'გიორგი'
+);
