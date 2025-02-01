@@ -1,0 +1,14 @@
+C:\Users\User\source\repos\SweeftProblem9\bin\Debug\net8.0\SweeftProblem9.exe
+C:\Users\User\source\repos\SweeftProblem9\bin\Debug\net8.0\SweeftProblem9.deps.json
+C:\Users\User\source\repos\SweeftProblem9\bin\Debug\net8.0\SweeftProblem9.runtimeconfig.json
+C:\Users\User\source\repos\SweeftProblem9\bin\Debug\net8.0\SweeftProblem9.dll
+C:\Users\User\source\repos\SweeftProblem9\bin\Debug\net8.0\SweeftProblem9.pdb
+C:\Users\User\source\repos\SweeftProblem9\obj\Debug\net8.0\SweeftProblem9.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\SweeftProblem9\obj\Debug\net8.0\SweeftProblem9.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\SweeftProblem9\obj\Debug\net8.0\SweeftProblem9.AssemblyInfo.cs
+C:\Users\User\source\repos\SweeftProblem9\obj\Debug\net8.0\SweeftProblem9.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\SweeftProblem9\obj\Debug\net8.0\SweeftProblem9.dll
+C:\Users\User\source\repos\SweeftProblem9\obj\Debug\net8.0\refint\SweeftProblem9.dll
+C:\Users\User\source\repos\SweeftProblem9\obj\Debug\net8.0\SweeftProblem9.pdb
+C:\Users\User\source\repos\SweeftProblem9\obj\Debug\net8.0\SweeftProblem9.genruntimeconfig.cache
+C:\Users\User\source\repos\SweeftProblem9\obj\Debug\net8.0\ref\SweeftProblem9.dll
