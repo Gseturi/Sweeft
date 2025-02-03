@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
@@ -19,15 +19,20 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        var url = "https://restcountries.com/v3.1/all"; 
+       await GenerateCountryDataFiles();
+    }
+    public async static ValueTask GenerateCountryDataFiles()
+    {
+
+        var url = "https://restcountries.com/v3.1/all";
 
         using (var client = new HttpClient())
         {
-            
+
             var response = await client.GetStringAsync(url);
 
-         
-           //Console.WriteLine("Raw response:\n" + response);
+
+            //Console.WriteLine("Raw response:\n" + response);
 
             var countries = JsonConvert.DeserializeObject<Country[]>(response);
 
@@ -38,7 +43,7 @@ class Program
 
                 var fileName = $"{countryName.Replace(" ", "_")}.txt";
 
-                
+
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
 
                 var content = $"Region: {country.Region}\n" +
@@ -47,14 +52,15 @@ class Program
                              $"Area: {(country.Area.HasValue ? country.Area.Value + " km²" : "N/A")}\n" +
                              $"Population: {(country.Population.HasValue ? country.Population.Value.ToString() : "N/A")}\n";
 
-              
+
                 await File.WriteAllTextAsync(filePath, content);
 
                 Console.WriteLine($"Created file: {fileName}");
             }
         }
+
+
     }
- 
     static string GetCountryName(object name)
     {
         if (name is string)
@@ -69,3 +75,4 @@ class Program
         return "Unknown";
     }
 }
+
