@@ -31,7 +31,7 @@ class Program
 
             var response = await client.GetStringAsync(url);
 
-
+            //ubralod mainshi mewera yvelaferi gadavitne failshi mititebul funciashi
             //Console.WriteLine("Raw response:\n" + response);
 
             var countries = JsonConvert.DeserializeObject<Country[]>(response);
